@@ -1,0 +1,42 @@
+#include<stdio.h>
+int nums[20];
+int used[20];
+int func(int start,int len,int k,int inPbucketSum,int targetBS){
+    if(k==1){
+        return 1;
+    }
+    if(inPbucketSum==targetBS){
+        return func(0,len,k-1,0,targetBS);
+    }
+    for(int i=start;i<len;i++){
+        if(used[i]==0){
+            used[i]=1;
+            if(func(i+1,len,k,inPbucketSum+nums[i],targetBS)==1){
+                return 1;
+            }
+            used[i]=0;
+        }
+    }
+   return 0;
+}
+
+int main(){
+int n;
+scanf("%d",&n);
+for(int i=0;i<n;i++){
+    int len,k;
+    int avg=0;
+    scanf("%d%d",&len,&k);
+    for(int j=0;j<len;j++){
+        scanf("%d",&nums[j]);
+        avg=avg+nums[j];
+        used[j]=0;
+    }
+    avg = avg/k;
+    if(func(0,len,k,0,avg)==1)
+        printf("True\n");
+    else
+        printf("False\n");
+}
+return 0;
+}
